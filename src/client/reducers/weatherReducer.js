@@ -1,28 +1,18 @@
 import * as constants from '../../constants';
 
 const initialState = {
-    temperature: '',
     skyState: '',
     windSpeed: '',
     currentTime: '',
+    temperature: '',
 };
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case constants.TEMPERATURE:
+        case constants.SET_WEATHER:
             return {
                 ...state,
-                temperature: action.payload,
-            };
-        case constants.SPEED_WIND:
-            return {
-                ...state,
-                windSpeed: action.payload,
-            };
-        case constants.SKY_STATE:
-            return {
-                ...state,
-                skyState: action.payload,
+                ...action.payload,
             };
         default:
             return state;

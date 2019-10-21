@@ -1,35 +1,36 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Wrapper, Buttons, Info } from './styledComponent.js';
+import constants from '../../../constants';
 
 class Main extends Component {
-    constructor(props){
-        super(props);
-    }
-
     static propTypes = {
-        temperature: PropTypes.number.isRequired,
-        windSpeed: PropTypes.number.isRequired,
+        skyState: PropTypes.string.isRequired,
+        windSpeed: PropTypes.string.isRequired,
+        getWeather: PropTypes.func.isRequired,
+        temperature: PropTypes.string.isRequired,
     };
 
-    getTown = event => this.props.getWeather(event.target.id);
-
     render() {
-        const { temperature, windSpeed, skyState} = this.props;
+        const {
+            skyState,
+            windSpeed,
+            getWeather,
+            temperature,
+        } = this.props;
 
         return (
             <Wrapper>
                 <Wrapper.Buttons>
-                    <Buttons.button id='Kiev' onClick={this.getTown} children={'Kiev'} />
-                    <Buttons.button id='Dnipro' onClick={this.getTown} children={'Dnipro'} />
-                    <Buttons.button id='Lvov' onClick={this.getTown} children={'Lvov'} />
-                    <Buttons.button id='Kharkiv' onClick={this.getTown} children={'Kharkiv'} />
+                    <Buttons.button onClick={() => getWeather(constants.KIEV)} children={'Kiev'} />
+                    <Buttons.button onClick={() => getWeather(constants.DNIPRO)} children={'Dnipro'} />
+                    <Buttons.button onClick={() => getWeather(constants.LVIV)} children={'Lviv'} />
+                    <Buttons.button onClick={() => getWeather(constants.KHARKIV)} children={'Kharkiv'} />
                 </Wrapper.Buttons>
                 <Wrapper.Info>
-                    <Info.paragraph children={temperature} />
-                    <Info.image src={`https://openweathermap.org/img/w/${skyState}.png`} alt={'weather'} />
-                    <Info.paragraph children={'time'} />
-                    <Info.paragraph children={`${windSpeed} p.h.`} />
+                    {temperature ? <Info.paragraph children={`${temperature} °C`}/> : null}
+                    {skyState ? <Info.image src={`https://openweathermap.org/img/w/${skyState}.png`} alt={'weather'} /> : null}
+                    {windSpeed ? <Info.paragraph children={`${windSpeed} p.h.`} /> : null}
                 </Wrapper.Info>
             </Wrapper>
         );
